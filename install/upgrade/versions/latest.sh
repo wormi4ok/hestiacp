@@ -204,3 +204,9 @@ if [ -z "$GZIP_LVL_CHECK" ]; then
     echo "[ * ] Updating backup compression level variable..."
     $BIN/v-change-sys-config-value "BACKUP_GZIP" '9'
 fi
+
+# Update fail2ban jail settings to enable recidive (#716)
+if [ -e "/etc/fail2ban/jail.local" ]; then
+    echo "[ * ] Updating fail2ban security settings..."
+    cp -f $HESTIA_INSTALL_DIR/fail2ban/jail.local /etc/fail2ban/jail.local
+fi
