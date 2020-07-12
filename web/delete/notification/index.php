@@ -18,6 +18,12 @@ if($_GET['delete'] == 1){
     exec (HESTIA_CMD."v-delete-user-notification ".$v_username." ".$v_id, $output, $return_var);
     check_return_code($return_var,$output);
     unset($output);
+} else if ($_GET['delete_all'] == 1) {
+    $v_username = escapeshellarg($user);
+    $v_id = escapeshellarg((int)$_GET['notification_id']);
+    exec (HESTIA_CMD."v-delete-user-notifications ".$v_username., $output, $return_var);
+    check_return_code($return_var,$output);
+    unset($output);
 } else {
     $v_username = escapeshellarg($user);
     $v_id = escapeshellarg((int)$_GET['notification_id']);
