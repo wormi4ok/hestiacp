@@ -1,0 +1,50 @@
+#!/bin/bash
+# info: delete all user notifications
+# options: USER
+#
+# The function deletes user notifications.
+
+
+#----------------------------------------------------------#
+#                    Variable&Function                     #
+#----------------------------------------------------------#
+
+# Argument definition
+user=$1
+
+# Includes
+source $HESTIA/func/main.sh
+source $HESTIA/conf/hestia.conf
+
+
+#----------------------------------------------------------#
+#                    Verifications                         #
+#----------------------------------------------------------#
+
+check_args '1' "$#" 'USER'
+is_format_valid 'user'
+is_object_valid 'user' 'USER' "$user"
+
+# Perform verification if read-only mode is enabled
+check_hestia_demo_mode
+
+
+#----------------------------------------------------------#
+#                       Action                             #
+#----------------------------------------------------------#
+
+# Deleting all notifications
+rm -f $USER_DATA/notifications.conf 2>/dev/null
+touch $USER_DATA/notifications.conf 2>/dev/null
+
+#----------------------------------------------------------#
+#                       Hestia                             #
+#----------------------------------------------------------#
+
+# Updating notification counter
+update_user_value "$user" '$NOTIFICATIONS' "no"
+
+# Logging
+log_event "$OK" "$ARGUMENTS"
+
+exit
