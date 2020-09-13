@@ -121,7 +121,9 @@ update_object_value 'web' 'DOMAIN' "$domain" '$SSL_HOME' "$SSL_HOME"
 update_object_value 'web' 'DOMAIN' "$domain" '$SSL' "yes"
 
 # Enabling automatic SSL redirection
-$BIN/v-add-web-domain-ssl-force "$user" "$domain"
+if [ "$SSL_FORCE" != "no" ]; then
+    $BIN/v-add-web-domain-ssl-force "$user" "$domain"
+fi
 
 # Restarting web server
 $BIN/v-restart-web $restart
