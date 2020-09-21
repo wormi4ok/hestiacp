@@ -55,5 +55,10 @@ if [ -e "/etc/exim4/exim4.conf.template" ]; then
 fi
 
 # Change backup mode to zstd.
- echo "[ * ] Enable new backup compression zstd as default."
- $HESTIA/v-change-sys-config-value "BACKUP_MODE" "zstd"
+if [ -e /usr/bin/zstd ]; then
+    echo "[ * ] Enable new backup compression zstd as default."
+    $HESTIA/v-change-sys-config-value "BACKUP_MODE" "zstd"
+else
+    echo "[ ! ] Backup compression gzip as default."
+    $HESTIA/v-change-sys-config-value "BACKUP_MODE" "gzip"
+fi
