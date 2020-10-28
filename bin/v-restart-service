@@ -43,6 +43,9 @@ for service in $service_list; do
         # Run the restart rules for iptables firewall
         $BIN/v-stop-firewall
         $BIN/v-update-firewall
+    elif [ "$service" = "vsftpd" ]; then
+        # Explicitly restart vsftpd
+        systemctl restart $service > /dev/null 2>&1
     elif [ -z "$restart" -o "$restart" = "no" ] && [ \
             "$service" = "nginx" -o     \
             "$service" = "apache2" -o   \
@@ -50,7 +53,6 @@ for service in $service_list; do
             "$service" = "dovecot" -o   \
             "$service" = "bind9" -o     \
             "$service" = "named" -o     \
-            "$service" = "vsftpd" -o    \
             "$service" = "php5.6-fpm" -o \
             "$service" = "php7.0-fpm" -o \
             "$service" = "php7.1-fpm" -o \
