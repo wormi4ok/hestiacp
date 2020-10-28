@@ -158,9 +158,11 @@ fi
 # Checking WEB Backend
 if [ ! -z "$WEB_BACKEND" ] && [ "$WEB_BACKEND" != 'remote' ]; then
     proc_name=$(ls /usr/sbin/php*fpm* | rev | cut -d'/' -f 1 | rev)
-    get_srv_state $proc_name
-    data="$data\nNAME='$WEB_BACKEND' SYSTEM='backend server' STATE='$state'"
-    data="$data CPU='$cpu' MEM='$mem' RTIME='$rtime'"
+    for phpfpm_v in $proc_name; do
+        get_srv_state $phpfpm_v
+        data="$data\nNAME='$phpfpm_v' SYSTEM='backend server' STATE='$state'"
+        data="$data CPU='$cpu' MEM='$mem' RTIME='$rtime'"
+    done
 fi
 
 # Checking WEB Proxy
